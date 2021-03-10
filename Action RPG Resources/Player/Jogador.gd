@@ -1,7 +1,10 @@
 extends KinematicBody2D
 
 var velocidade = Vector2.ZERO
-var rapidez = 100
+
+const VELOCIDADE_MAX = 120
+const ACELERACAO = 500
+const ATRITO = 700
 
 func _physics_process(delta):
 	
@@ -11,8 +14,8 @@ func _physics_process(delta):
 	resultante = resultante.normalized()
 	
 	if resultante != Vector2.ZERO:
-		velocidade = resultante * rapidez
+		velocidade = velocidade.move_toward(resultante * VELOCIDADE_MAX, ACELERACAO * delta)
 	else:
-		velocidade = Vector2.ZERO
+		velocidade = velocidade.move_toward(Vector2.ZERO, ATRITO * delta)
 	
 	move_and_slide(velocidade)
